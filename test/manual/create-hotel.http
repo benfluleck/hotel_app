@@ -1,0 +1,14 @@
+POST http://[::1]:3000/hotel
+Content-Type: application/json
+
+{
+  "name": "Hotel 4",
+  "description": "Hotel 1 description",
+  "street_address": "Hotel 1 street address",
+  "state": "Hotel 1 state",
+  "address": "Hotel 1 address",
+  "city": "Hotel 1 city",
+  "country": "Hotel 1 country",
+  "phone": "Hotel 1 phone",
+  "email": "benfluleck@gmail.com" 
+}

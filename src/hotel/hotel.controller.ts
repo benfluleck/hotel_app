@@ -16,27 +16,27 @@ export class HotelController {
   constructor(private readonly hotelService: HotelService) {}
 
   @Post()
-  create(@Body() createHotelDto: CreateHotelDto) {
+  async create(@Body() createHotelDto: CreateHotelDto) {
     return this.hotelService.create(createHotelDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.hotelService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.hotelService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.hotelService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHotelDto: UpdateHotelDto) {
-    return this.hotelService.update(+id, updateHotelDto);
+    return this.hotelService.update(id, updateHotelDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hotelService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return this.hotelService.remove(id);
   }
 }
