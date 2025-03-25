@@ -1,0 +1,13 @@
+POST http://[::1]:3000/customer
+Content-Type: application/json
+
+
+{
+  "firstName": "John",  
+  "lastName": "Beans",
+  "email": "benfluleck@gmail.com",
+  "phone": "0700000000",
+  "streetAddress": "Nairobi",
+  "city": "Nairobi",
+  "country": "Kenya"
+}
