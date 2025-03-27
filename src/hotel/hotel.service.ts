@@ -33,7 +33,7 @@ export class HotelService {
     return this.entityManager.save(Hotel, hotel);
   }
 
-  remove(id: string) {
-    return this.hotelsRepository.delete({ id });
+  async remove(id: string) {
+    await this.hotelsRepository.delete({ id });
   }
 }

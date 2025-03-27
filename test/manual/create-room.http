@@ -1,0 +1,10 @@
+POST http://[::1]:3000/room
+Content-Type: application/json
+
+{
+  "name": "Room Royale",
+  "number": 9,
+  "bed": 2,
+  "smoking": true,
+  "breakfast": true,
+}
