@@ -1,18 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  Unique,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Unique } from 'typeorm';
 import { CustomerDto } from '../dto/customer.dto';
+import { AbstractEntity } from 'src/connection/entities/abstract.entity';
 
 @Entity({ name: 'customer' })
-export class Customer implements CustomerDto {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
-
+export class Customer extends AbstractEntity<Customer> implements CustomerDto {
   @Column({ name: 'first_name', type: 'text', nullable: false })
   firstName!: string;
 
@@ -40,14 +31,4 @@ export class Customer implements CustomerDto {
 
   @Column({ type: 'text', nullable: false })
   phone!: string;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
-
-  constructor(customer: Partial<Customer>) {
-    Object.assign(this, customer);
-  }
 }

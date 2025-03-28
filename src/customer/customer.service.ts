@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class CustomerService {
   @InjectRepository(Customer)
   private readonly customersRepository!: Repository<Customer>;
-
   constructor(private readonly entityManager: EntityManager) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
@@ -36,7 +35,7 @@ export class CustomerService {
     return this.entityManager.save(Customer, customer);
   }
 
-  remove(id: string) {
-    return this.customersRepository.delete({ id });
+  async remove(id: string) {
+    await this.customersRepository.delete({ id });
   }
 }

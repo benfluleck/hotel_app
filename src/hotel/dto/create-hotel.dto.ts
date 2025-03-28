@@ -3,8 +3,8 @@ import { HotelDtoSchema } from './hotel.dto';
 
 export const CreateHotelDtoSchema = HotelDtoSchema.omit({
   id: true,
-  created_at: true,
-  updated_at: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export class CreateHotelDto extends createZodDto(CreateHotelDtoSchema) {}

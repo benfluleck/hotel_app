@@ -7,12 +7,11 @@ import {
   Param,
   Delete,
   UsePipes,
-  // ValidationPipe,
 } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { HotelService } from './hotel.service';
 import { CreateHotelDto, CreateHotelDtoSchema } from './dto/create-hotel.dto';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
-import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('hotel')
 @UsePipes(ZodValidationPipe)

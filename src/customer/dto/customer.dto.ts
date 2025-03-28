@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const CustomerDtoSchema = z
   .object({
-    id: z.string(),
+    id: z.string().uuid(),
     firstName: z.string(),
     lastName: z.string(),
     dateOfBirth: z.date().optional(),

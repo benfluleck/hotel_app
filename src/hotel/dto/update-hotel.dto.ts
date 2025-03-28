@@ -1,6 +1,6 @@
-import { CreateCustomerDtoSchema } from 'src/customer/dto/create-customer.dto';
+import { CreateHotelDtoSchema } from 'src/hotel/dto/create-hotel.dto';
 import z from 'zod';
 
-export const UpdateHotelDtoSchema = CreateCustomerDtoSchema.partial();
+export const UpdateHotelDtoSchema = CreateHotelDtoSchema.partial();
 
 export type UpdateHotelDto = z.infer<typeof UpdateHotelDtoSchema>;
