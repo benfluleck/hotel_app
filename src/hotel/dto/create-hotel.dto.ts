@@ -1,14 +1,10 @@
-import z from 'zod';
+import { createZodDto } from 'nestjs-zod';
+import { HotelDtoSchema } from './hotel.dto';
 
-export const CreateHotelDtoSchema = z.object({
-  name: z.string(),
-  street_address: z.string().min(5, { message: 'Address is too short' }),
-  state: z.string(),
-  email: z
-    .string()
-    .min(1, { message: 'This field has to be filled.' })
-    .email('This is not a valid email.'),
-  phone: z.string(),
+export const CreateHotelDtoSchema = HotelDtoSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
-export type CreateHotelDto = z.infer<typeof CreateHotelDtoSchema>;
+export class CreateHotelDto extends createZodDto(CreateHotelDtoSchema) {}

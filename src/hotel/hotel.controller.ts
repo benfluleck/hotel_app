@@ -6,18 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
 } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { HotelService } from './hotel.service';
-import { CreateHotelDto } from './dto/create-hotel.dto';
+import { CreateHotelDto, CreateHotelDtoSchema } from './dto/create-hotel.dto';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
 
 @Controller('hotel')
+@UsePipes(ZodValidationPipe)
 export class HotelController {
   constructor(private readonly hotelService: HotelService) {}
 
   @Post()
-  async create(@Body() createHotelDto: CreateHotelDto) {
-    return this.hotelService.create(createHotelDto);
+  async create(
+    @Body(new ZodValidationPipe(CreateHotelDtoSchema))
+    body: CreateHotelDto,
+  ) {
+    return this.hotelService.create(body);
   }
 
   @Get()

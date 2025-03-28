@@ -1,0 +1,12 @@
+POST http://[::1]:3000/customer
+Content-Type: application/json
+
+{
+  "firstName": "Joe",  
+  "lastName": "Miller",
+  "email": "joe-m@gmail.com",
+  "phone": "0700000000",
+  "streetAddress": "Barrio San Pedro Street 310 y Av.",
+  "city": "Los Angeles",
+  "country": "California, USA",
+}

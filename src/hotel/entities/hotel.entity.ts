@@ -1,38 +1,28 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { HotelDto } from '../dto/hotel.dto';
+import { Room } from 'src/room/entities/room.entity';
+import { AbstractEntity } from 'src/connection/entities/abstract.entity';
 
 @Entity({ name: 'hotel' })
-export class Hotel {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Hotel extends AbstractEntity<Hotel> implements HotelDto {
   @Column({ type: 'text', unique: true })
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: false })
-  street_address: string;
+  street_address!: string;
 
   @Column({ type: 'text', nullable: false })
-  state: string;
+  state!: string;
 
-  @Column({ type: 'text', nullable: true })
-  email: string;
+  @Column({ type: 'text', nullable: false })
+  email!: string;
 
-  @Column({ type: 'text', nullable: true })
-  phone: string;
+  @Column({ type: 'text', nullable: false })
+  phone!: string;
 
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  constructor(hotel: Partial<Hotel>) {
-    Object.assign(this, hotel);
-  }
+  @OneToMany(() => Room, (room) => room.hotel, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  rooms!: Room[];
 }

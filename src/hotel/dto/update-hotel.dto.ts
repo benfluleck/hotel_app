@@ -1,4 +1,4 @@
-import { CreateHotelDtoSchema } from './create-hotel.dto';
+import { CreateHotelDtoSchema } from 'src/hotel/dto/create-hotel.dto';
 import z from 'zod';
 
 export const UpdateHotelDtoSchema = CreateHotelDtoSchema.partial();

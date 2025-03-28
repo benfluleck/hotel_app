@@ -1,0 +1,12 @@
+POST http://[::1]:3000/room
+Content-Type: application/json
+
+{
+  "roomNumber": "101",
+  "roomType": "Deluxe",
+  "pricePerNight": 150.00,
+  "maxGuests": 2,
+  "isAvailable": true,
+  "hotelId": "1234567890abcdef12345678",
+  "description": "A spacious deluxe room with a king-size bed and a beautiful view."
+}
