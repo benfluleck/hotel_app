@@ -10,22 +10,22 @@ import { RoomDto } from '../dto/room.dto';
 @Entity({ name: 'room' })
 export class Room implements RoomDto {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  room_id!: string;
 
-  @Column({ name: 'name', type: 'text', nullable: false })
-  name!: string;
+  @Column({ name: 'room_number', type: 'text', nullable: false })
+  room_number!: string;
 
-  @Column({ name: 'number', type: 'text', nullable: false })
-  number!: number;
+  @Column({ name: 'room_type', type: 'text', nullable: false })
+  room_type!: string;
 
-  @Column({ name: 'bed', type: 'text', nullable: false })
-  bed!: number;
+  @Column({ name: 'price_per_night', type: 'decimal', nullable: false })
+  price_per_night!: number;
 
-  @Column({ name: 'smoking', type: 'text', nullable: true })
-  smoking!: boolean;
+  @Column({ name: 'max_guests', type: 'integer', nullable: false })
+  max_guests!: number;
 
-  @Column({ name: 'breakfast', type: 'text', nullable: true })
-  breakfast!: boolean;
+  @Column({ name: 'is_available', type: 'boolean', default: true })
+  is_available!: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
