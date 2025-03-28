@@ -3,14 +3,15 @@ import { z } from 'zod';
 
 export const RoomDtoSchema = z
   .object({
-    room_id: z.string(),
-    room_number: z.string().max(10),
-    room_type: z.string().max(20),
-    price_per_night: z.number(),
-    max_guests: z.number(),
-    is_available: z.boolean(),
+    id: z.string().uuid(),
+    roomNumber: z.string(),
+    roomType: z.string(),
+    pricePerNight: z.number(),
+    maxGuests: z.number(),
+    isAvailable: z.boolean(),
     createdAt: z.date(),
     updatedAt: z.date(),
+    hotelId: z.string().uuid('Hotel ID must be a valid UUID'),
   })
   .required();
 

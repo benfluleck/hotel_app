@@ -3,9 +3,10 @@ import { HotelService } from './hotel.service';
 import { HotelController } from './hotel.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Hotel } from './entities/hotel.entity';
+import { Room } from 'src/room/entities/room.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Hotel])],
+  imports: [TypeOrmModule.forFeature([Hotel, Room])],
   controllers: [HotelController],
   providers: [HotelService],
 })

@@ -2,9 +2,11 @@ POST http://[::1]:3000/room
 Content-Type: application/json
 
 {
-  "name": "Room Royale",
-  "number": 9,
-  "bed": 2,
-  "smoking": true,
-  "breakfast": true,
+  "roomNumber": "101",
+  "roomType": "Deluxe",
+  "pricePerNight": 150.00,
+  "maxGuests": 2,
+  "isAvailable": true,
+  "hotelId": "1234567890abcdef12345678",
+  "description": "A spacious deluxe room with a king-size bed and a beautiful view."
 }

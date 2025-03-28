@@ -11,7 +11,7 @@ import { RoomModule } from './room/room.module';
     ConnectionModule,
     HotelModule,
     CustomerModule,
-    RoomModule
+    RoomModule,
   ],
   controllers: [],
   providers: [],

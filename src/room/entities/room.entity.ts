@@ -1,39 +1,31 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { RoomDto } from '../dto/room.dto';
+import { Hotel } from 'src/hotel/entities/hotel.entity';
+import { AbstractEntity } from 'src/connection/entities/abstract.entity';
 
 @Entity({ name: 'room' })
-export class Room implements RoomDto {
-  @PrimaryGeneratedColumn('uuid')
-  room_id!: string;
-
+export class Room extends AbstractEntity<Room> implements RoomDto {
   @Column({ name: 'room_number', type: 'text', nullable: false })
-  room_number!: string;
+  roomNumber!: string;
 
   @Column({ name: 'room_type', type: 'text', nullable: false })
-  room_type!: string;
+  roomType!: string;
 
   @Column({ name: 'price_per_night', type: 'decimal', nullable: false })
-  price_per_night!: number;
+  pricePerNight!: number;
 
   @Column({ name: 'max_guests', type: 'integer', nullable: false })
-  max_guests!: number;
+  maxGuests!: number;
 
   @Column({ name: 'is_available', type: 'boolean', default: true })
-  is_available!: boolean;
+  isAvailable!: boolean;
 
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
+  @Column({ name: 'hotel_id', type: 'uuid', nullable: true })
+  hotelId!: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt!: Date;
-
-  constructor(room: Partial<Room>) {
-    Object.assign(this, room);
-  }
+  @ManyToOne(() => Hotel, (hotel) => hotel.rooms, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  hotel!: Hotel;
 }

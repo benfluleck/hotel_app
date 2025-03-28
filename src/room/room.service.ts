@@ -21,21 +21,18 @@ export class RoomService {
     return this.roomsRepository.find();
   }
 
-  async findOne(room_id: string): Promise<Room | null> {
-    return this.roomsRepository.findOneBy({ room_id });
+  async findOne(id: string): Promise<Room | null> {
+    return this.roomsRepository.findOneBy({ id });
   }
 
-  async update(
-    room_id: string,
-    updateRoomDto: UpdateRoomDto,
-  ): Promise<Room> {
-    const room = await this.roomsRepository.findOneByOrFail({ room_id });
+  async update(id: string, updateRoomDto: UpdateRoomDto): Promise<Room> {
+    const room = await this.roomsRepository.findOneByOrFail({ id });
 
     Object.assign(room, updateRoomDto);
     return this.entityManager.save(Room, room);
   }
 
-  async remove(room_id: string) {
-    await this.roomsRepository.delete({ room_id });
+  async remove(id: string) {
+    await this.roomsRepository.delete({ id });
   }
 }
