@@ -8,6 +8,6 @@ Content-Type: application/json
   "state": "California, USA",
   "city": "Malibu",
   "country": "United State of America",
-  "phone": "0142458790",
+  "phone": "0142458790",  
   "email": "hotel@gmail.com"
 }
