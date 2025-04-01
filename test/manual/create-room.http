@@ -7,6 +7,7 @@ Content-Type: application/json
   "pricePerNight": 150.00,
   "maxGuests": 2,
   "isAvailable": true,
-  "hotelId": "1234567890abcdef12345678",
+  "hotelId": "37e88f3d-91f2-443e-90e7-68cbcc914f3a",
+  "roomTypeId": "9a737d1a-f208-44d8-aad5-6c30fa4534ef",
   "description": "A spacious deluxe room with a king-size bed and a beautiful view."
 }

@@ -4,14 +4,10 @@ import { z } from 'zod';
 export const RoomDtoSchema = z
   .object({
     id: z.string().uuid(),
-    roomNumber: z.string(),
-    roomType: z.string(),
-    pricePerNight: z.number(),
-    maxGuests: z.number(),
-    isAvailable: z.boolean(),
+    roomNumber: z.string().min(1, { message: 'Room number is required' }),
+    isAvailable: z.boolean().default(true),
     createdAt: z.date(),
     updatedAt: z.date(),
-    hotelId: z.string().uuid('Hotel ID must be a valid UUID'),
   })
   .required();
 

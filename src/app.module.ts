@@ -4,6 +4,7 @@ import { HotelModule } from './hotel/hotel.module';
 import { ConnectionModule } from './connection/connection.module';
 import { CustomerModule } from './customer/customer.module';
 import { RoomModule } from './room/room.module';
+import { RoomTypeModule } from './room-type/room-type.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RoomModule } from './room/room.module';
     HotelModule,
     CustomerModule,
     RoomModule,
+    RoomTypeModule,
   ],
   controllers: [],
   providers: [],

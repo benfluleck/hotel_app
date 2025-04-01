@@ -21,8 +21,7 @@ export class Hotel extends AbstractEntity<Hotel> implements HotelDto {
   phone!: string;
 
   @OneToMany(() => Room, (room) => room.hotel, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    cascade: true,
   })
   rooms!: Room[];
 }
