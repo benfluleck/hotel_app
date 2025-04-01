@@ -1,6 +1,7 @@
-import { Column, Entity, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, Unique } from 'typeorm';
 import { CustomerDto } from '../dto/customer.dto';
 import { AbstractEntity } from 'src/connection/entities/abstract.entity';
+import { Booking } from 'src/booking/entities/booking.entity';
 
 @Entity({ name: 'customer' })
 export class Customer extends AbstractEntity<Customer> implements CustomerDto {
@@ -31,4 +32,9 @@ export class Customer extends AbstractEntity<Customer> implements CustomerDto {
 
   @Column({ type: 'text', nullable: false })
   phone!: string;
+
+  @OneToMany(() => Booking, (booking) => booking.customer, {
+    cascade: ['insert', 'update', 'remove'],
+  })
+  bookings!: Booking[];
 }
