@@ -5,6 +5,8 @@ import { ConnectionModule } from './connection/connection.module';
 import { CustomerModule } from './customer/customer.module';
 import { RoomModule } from './room/room.module';
 import { RoomTypeModule } from './room-type/room-type.module';
+import { BookingModule } from './booking/booking.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { RoomTypeModule } from './room-type/room-type.module';
     CustomerModule,
     RoomModule,
     RoomTypeModule,
+    BookingModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [],

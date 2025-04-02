@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { RoomDto } from '../dto/room.dto';
 import { Hotel } from 'src/hotel/entities/hotel.entity';
 import { AbstractEntity } from 'src/connection/entities/abstract.entity';
 import { RoomType } from 'src/room-type/entities/room-type.entity';
+import { Booking } from 'src/booking/entities/booking.entity';
 
 @Entity({ name: 'room' })
 export class Room extends AbstractEntity<Room> implements RoomDto {
@@ -23,4 +24,9 @@ export class Room extends AbstractEntity<Room> implements RoomDto {
   })
   @JoinColumn({ name: 'hotel_id' })
   hotel!: Hotel;
+
+  @OneToMany(() => Booking, (booking) => booking.room, {
+    cascade: ['insert', 'update', 'remove'],
+  })
+  booking!: Booking[];
 }
