@@ -21,7 +21,7 @@ export type PaymentMethodType = z.infer<typeof paymentMethod>;
 export const PaymentDtoSchema = z
   .object({
     id: z.string().uuid(),
-    amount: z.number(),
+    amount: z.number().positive({ message: "Amount must be a positive number" }),
     method: paymentMethod,
     status: paymentStatus,
     transactionDate: z.date({
