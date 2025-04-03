@@ -2,9 +2,9 @@ import { AbstractEntity } from 'src/connection/entities/abstract.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import {
   PaymentDto,
-  PaymentMethod,
+  PaymentMethodType,
   paymentMethod,
-  PaymentStatus,
+  PaymentStatusType,
   paymentStatus,
 } from '../dto/payment.dto';
 import { Booking } from 'src/booking/entities/booking.entity';
@@ -19,17 +19,27 @@ export class Payment extends AbstractEntity<Payment> implements PaymentDto {
 
   @Column({
     type: 'enum',
-    enum: paymentStatus,
+    enum: [
+      paymentStatus.enum.PENDING,
+      paymentStatus.enum.COMPLETED,
+      paymentStatus.enum.FAILED,
+      paymentStatus.enum.REFUNDED,
+    ],
     default: paymentStatus.enum.PENDING,
   })
-  status!: PaymentStatus;
+  status!: PaymentStatusType;
 
   @Column({
     type: 'enum',
-    enum: paymentMethod,
+    enum: [
+      paymentMethod.enum.CREDIT_CARD,
+      paymentMethod.enum.BANK_TRANSFER,
+      paymentMethod.enum.PAYPAL,
+      paymentMethod.enum.CASH,
+    ],
     default: paymentMethod.enum.BANK_TRANSFER,
   })
-  method!: PaymentMethod;
+  method!: PaymentMethodType;
 
   @OneToOne(() => Booking, (booking) => booking.payment, {
     cascade: true,

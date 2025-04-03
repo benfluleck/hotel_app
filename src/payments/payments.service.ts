@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { Payment } from './entities/payment.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class PaymentsService {
-  create(createPaymentDto: CreatePaymentDto) {
-    return 'This action adds a new payment';
+  @InjectRepository(Payment)
+  private readonly paymentRepository!: Repository<Payment>;
+
+  constructor(private readonly entityManager: EntityManager) {}
+
+  async create(createPaymentDto: CreatePaymentDto) {
+    const payment = new Payment(createPaymentDto);
+
+    return this.entityManager.save(Payment, payment);
   }
 
-  findAll() {
-    return `This action returns all payments`;
+  async findAll(): Promise<Payment[]> {
+    return this.paymentRepository.find();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} payment`;
+  async findOne(id: string): Promise<Payment | null> {
+    return this.paymentRepository.findOneBy({ id });
   }
 
-  update(id: string, updatePaymentDto: UpdatePaymentDto) {
-    return `This action updates a #${id} payment`;
+  async update(
+    id: string,
+    updatePaymentDto: UpdatePaymentDto,
+  ): Promise<Payment> {
+    const payment = await this.paymentRepository.findOneByOrFail({ id });
+    Object.assign(payment, updatePaymentDto);
+    return this.entityManager.save(Payment, payment);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} payment`;
+  async remove(id: string) {
+    await this.paymentRepository.delete({ id });
   }
 }

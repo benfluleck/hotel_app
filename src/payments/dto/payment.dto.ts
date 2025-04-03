@@ -1,25 +1,29 @@
-import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
-export const paymentStatus = z.enum(['PENDING', 'COMPLETED', 'FAILED']);
-export type PaymentStatus = z.infer<typeof paymentStatus>;
+export const paymentStatus = z.enum([
+  'PENDING',
+  'COMPLETED',
+  'FAILED',
+  'REFUNDED',
+]);
+export type PaymentStatusType = z.infer<typeof paymentStatus>;
 
 export const paymentMethod = z.enum([
   'CREDIT_CARD',
   'DEBIT_CARD',
   'PAYPAL',
   'BANK_TRANSFER',
+  'CASH',
 ]);
-export type PaymentMethod = z.infer<typeof paymentMethod>;
+export type PaymentMethodType = z.infer<typeof paymentMethod>;
 
 export const PaymentDtoSchema = z
   .object({
     id: z.string().uuid(),
-    amount: z
-      .number()
-      .positive({ message: 'Amount must be a positive number' }),
-    method: z.enum(['CREDIT_CARD', 'DEBIT_CARD', 'PAYPAL', 'BANK_TRANSFER']),
-    status: z.enum(['PENDING', 'COMPLETED', 'FAILED']),
+    amount: z.number(),
+    method: paymentMethod,
+    status: paymentStatus,
     transactionDate: z.date({
       required_error: 'Transaction date is required',
       invalid_type_error: 'Transaction date must be a valid date',
@@ -29,4 +33,5 @@ export const PaymentDtoSchema = z
   })
   .required();
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export class PaymentDto extends createZodDto(PaymentDtoSchema) {}

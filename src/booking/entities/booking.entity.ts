@@ -25,26 +25,30 @@ export class Booking extends AbstractEntity<Booking> implements BookingDto {
 
   @Column({
     type: 'enum',
-    nullable: false,
-    enum: bookingStatus,
+    enum: [
+      bookingStatus.enum.PENDING,
+      bookingStatus.enum.CONFIRMED,
+      bookingStatus.enum.CANCELLED,
+      bookingStatus.enum.COMPLETED,
+    ],
     default: bookingStatus.enum.PENDING,
   })
   status!: BookingStatus;
 
   @ManyToOne(() => Customer, (customer) => customer.bookings, {
-    cascade: ['insert', 'update', 'remove'],
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'customer_id' })
   customer!: Customer;
 
   @ManyToOne(() => Room, (room) => room.booking, {
-    cascade: ['insert', 'update', 'remove'],
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'room_id' })
   room!: Room;
 
   @OneToOne(() => Payment, (payment) => payment.booking, {
-    cascade: true,
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'payment_id' })
   payment!: Payment;
