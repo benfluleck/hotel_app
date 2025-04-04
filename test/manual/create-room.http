@@ -2,7 +2,7 @@ POST http://[::1]:3000/room
 Content-Type: application/json
 
 {
-  "roomNumber": "101",
+  "roomNumber": "117",
   "roomType": "Deluxe",
   "pricePerNight": 150.00,
   "maxGuests": 2,
