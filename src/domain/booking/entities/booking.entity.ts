@@ -1,9 +1,9 @@
-import { AbstractEntity } from 'src/common/component-entities/abstract.entity';
+import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BookingDto, bookingStatus, BookingStatus } from '../dto/booking.dto';
-import { Customer } from 'src/domain/customer/entities/customer.entity';
-import { Room } from 'src/domain/room/entities/room.entity';
-import { Payment } from 'src/domain/payment/entities/payment.entity';
+import { Customer } from '../../customer/entities/customer.entity';
+import { Room } from '../../room/entities/room.entity';
+import { Payment } from '../../payment/entities/payment.entity';
 
 @Entity({ name: 'booking' })
 export class Booking extends AbstractEntity<Booking> implements BookingDto {

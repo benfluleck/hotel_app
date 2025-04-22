@@ -2,12 +2,12 @@ POST http://[::1]:3000/room
 Content-Type: application/json
 
 {
-  "roomNumber": "117",
+  "roomNumber": "60",
   "roomType": "Deluxe",
   "pricePerNight": 150.00,
   "maxGuests": 2,
   "isAvailable": true,
-  "hotelId": "37e88f3d-91f2-443e-90e7-68cbcc914f3a",
+  "hotelId": "118c0193-b545-4d7b-9183-0d09ec477f26",
   "roomTypeId": "9a737d1a-f208-44d8-aad5-6c30fa4534ef",
   "description": "A spacious deluxe room with a king-size bed and a beautiful view."
 }

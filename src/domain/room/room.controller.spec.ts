@@ -1,20 +1,20 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { RoomController } from './room.controller';
-// import { RoomService } from './room.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { RoomController } from './room.controller';
+import { RoomService } from './room.service';
 
-// describe('RoomController', () => {
-//   let room: RoomController;
+describe('RoomController', () => {
+  let controller: RoomController;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [RoomController],
-//       providers: [RoomService],
-//     }).compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [RoomController],
+      providers: [RoomService],
+    }).compile();
 
-//     controller = module.get<RoomController>(RoomController);
-//   });
+    controller = module.get<RoomController>(RoomController);
+  });
 
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});

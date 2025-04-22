@@ -2,7 +2,7 @@ POST http://[::1]:3000/hotel
 Content-Type: application/json
 
 {
-  "name": "Hotel California",
+  "name": "Hotel Test",
   "description": "Hotel 66 California",
   "street_address": "424 E Palm Canyon Dr, Palm Springs, CA 92264",
   "state": "California, USA",
