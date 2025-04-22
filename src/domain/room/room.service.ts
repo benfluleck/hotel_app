@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Room } from './entities/room.entity';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
-import { Hotel } from 'src/domain/hotel/entities/hotel.entity';
-import { RoomType } from 'src/domain/room-type/entities/room-type.entity';
+import { Hotel } from '../hotel/entities/hotel.entity';
+import { RoomType } from '../room-type/entities/room-type.entity';
 import { RoomResponseDto } from './dto/room-response.dto';
+import { ERROR_CODES } from '../../common/component-entities/error-context';
+import { DOMAIN_ENTITIES } from '../../common/constants/entities';
 
 @Injectable()
 export class RoomService {
@@ -14,26 +16,32 @@ export class RoomService {
   private readonly roomsRepository!: Repository<Room>;
   constructor(private readonly entityManager: EntityManager) {}
 
-  async create(
-    createRoomDto: CreateRoomDto,
-  ): Promise<RoomResponseDto | undefined> {
+  async create(createRoomDto: CreateRoomDto): Promise<RoomResponseDto> {
     const response = await this.entityManager
       .transaction(async (transactionalEntityManager) => {
         const room = new Room(createRoomDto);
-        const hotel = await transactionalEntityManager.findOneBy(Hotel, {
-          id: createRoomDto.hotelId,
+        const hotel = await transactionalEntityManager.findOne(Hotel, {
+          where: { id: createRoomDto.hotelId },
+          relations: ['rooms'],
         });
 
         if (!hotel) {
-          return undefined;
+          throw new HttpException(
+            `${DOMAIN_ENTITIES.HOTEL} ${ERROR_CODES.NOT_FOUND}`,
+            HttpStatus.NOT_FOUND,
+          );
         }
 
-        const roomType = await transactionalEntityManager.findOneBy(RoomType, {
-          id: createRoomDto.roomTypeId,
+        const roomType = await transactionalEntityManager.findOne(RoomType, {
+          where: { id: createRoomDto.roomTypeId },
+          relations: ['rooms'],
         });
 
         if (!roomType) {
-          return undefined;
+          throw new HttpException(
+            `${DOMAIN_ENTITIES.ROOM_TYPE} ${ERROR_CODES.NOT_FOUND}`,
+            HttpStatus.NOT_FOUND,
+          );
         }
 
         room.roomType = roomType;
@@ -41,10 +49,10 @@ export class RoomService {
 
         const savedRoom = await transactionalEntityManager.save(Room, room);
 
-        roomType.rooms = [savedRoom];
+        roomType.rooms = [...roomType.rooms, savedRoom];
         await transactionalEntityManager.save(roomType);
 
-        hotel.rooms = [savedRoom];
+        hotel.rooms = [...hotel.rooms, savedRoom];
         await transactionalEntityManager.save(hotel);
 
         return {
@@ -53,19 +61,48 @@ export class RoomService {
           roomNumber: savedRoom.roomNumber,
         };
       })
-      .catch(() => {
-        return undefined;
+      .catch((error: unknown) => {
+        const errorMessage =
+          error instanceof Error ? error.message : ERROR_CODES.BAD_REQUEST;
+        throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
       });
 
     return response;
   }
 
-  async findAll(): Promise<Room[]> {
-    return this.roomsRepository.find();
+  async findAll(hotelId: string): Promise<Room[]> {
+    const hotel = await this.entityManager.findOneBy(Hotel, {
+      id: hotelId,
+    });
+
+    if (!hotel) {
+      throw new HttpException(
+        `${DOMAIN_ENTITIES.HOTEL} ${ERROR_CODES.NOT_FOUND}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return this.roomsRepository.find({
+      relations: {
+        hotel: true,
+      },
+      where: {
+        hotel: { id: hotelId },
+      },
+    });
   }
 
   async findOne(id: string): Promise<Room | null> {
-    return this.roomsRepository.findOneBy({ id });
+    const room = await this.roomsRepository.findOneBy({ id });
+
+    if (!room) {
+      throw new HttpException(
+        `${DOMAIN_ENTITIES.ROOM} ${ERROR_CODES.NOT_FOUND}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return room;
   }
 
   async update(id: string, updateRoomDto: UpdateRoomDto): Promise<Room> {
@@ -75,7 +112,19 @@ export class RoomService {
     return this.entityManager.save(Room, room);
   }
 
-  async remove(id: string) {
-    await this.roomsRepository.delete({ id });
+  async remove(id: string): Promise<{ message: string; statusCode: number }> {
+    const response = await this.roomsRepository.delete({ id });
+
+    if (response.affected === 0) {
+      throw new HttpException(
+        `${DOMAIN_ENTITIES.ROOM} ${ERROR_CODES.NOT_FOUND}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      message: `${DOMAIN_ENTITIES.ROOM} deleted successfully`,
+      statusCode: HttpStatus.NO_CONTENT,
+    };
   }
 }

@@ -6,7 +6,7 @@ import { CustomerModule } from './domain/customer/customer.module';
 import { RoomModule } from './domain/room/room.module';
 import { RoomTypeModule } from './domain/room-type/room-type.module';
 import { BookingModule } from './domain/booking/booking.module';
-import { PaymentsModule } from './domain/payment/payments.module';
+import { PaymentsModule } from './domain/payment/payment.module';
 
 @Module({
   imports: [

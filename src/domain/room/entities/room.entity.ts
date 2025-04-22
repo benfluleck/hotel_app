@@ -1,11 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  Unique,
+} from 'typeorm';
 import { RoomDto } from '../dto/room.dto';
-import { Hotel } from 'src/domain/hotel/entities/hotel.entity';
-import { AbstractEntity } from 'src/common/component-entities/abstract.entity';
-import { RoomType } from 'src/domain/room-type/entities/room-type.entity';
-import { Booking } from 'src/domain/booking/entities/booking.entity';
+import { Hotel } from '../../hotel/entities/hotel.entity';
+import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
+import { RoomType } from '../../room-type/entities/room-type.entity';
+import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity({ name: 'room' })
+@Unique(['roomNumber', 'hotel'])
 export class Room extends AbstractEntity<Room> implements RoomDto {
   @Column({ name: 'room_number', type: 'text', nullable: false })
   roomNumber!: string;

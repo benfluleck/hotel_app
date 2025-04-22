@@ -9,12 +9,13 @@ import {
   UsePipes,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { RoomService } from './room.service';
-import { ERROR_CODES } from 'src/common/component-entities/error-context';
+import { ERROR_CODES } from '../../common/component-entities/error-context';
 
 @Controller('room')
 @UsePipes(ZodValidationPipe)
@@ -36,8 +37,8 @@ export class RoomController {
   }
 
   @Get()
-  findAll() {
-    return this.roomService.findAll();
+  findAll(@Query('hotelId') hotelId: string) {
+    return this.roomService.findAll(hotelId);
   }
 
   @Get(':id')

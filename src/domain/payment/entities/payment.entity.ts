@@ -1,4 +1,4 @@
-import { AbstractEntity } from 'src/common/component-entities/abstract.entity';
+import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import {
   PaymentDto,
@@ -7,7 +7,7 @@ import {
   PaymentStatusType,
   paymentStatus,
 } from '../dto/payment.dto';
-import { Booking } from 'src/domain/booking/entities/booking.entity';
+import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity({ name: 'payment' })
 export class Payment extends AbstractEntity<Payment> implements PaymentDto {

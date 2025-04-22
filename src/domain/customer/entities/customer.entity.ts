@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, Unique } from 'typeorm';
 import { CustomerDto } from '../dto/customer.dto';
-import { AbstractEntity } from 'src/common/component-entities/abstract.entity';
-import { Booking } from 'src/domain/booking/entities/booking.entity';
+import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
+import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity({ name: 'customer' })
 export class Customer extends AbstractEntity<Customer> implements CustomerDto {

@@ -1,7 +1,7 @@
-import { AbstractEntity } from 'src/common/component-entities/abstract.entity';
+import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { RoomTypeDto } from '../dto/room-type.dto';
-import { Room } from 'src/domain/room/entities/room.entity';
+import { Room } from '../../room/entities/room.entity';
 
 @Entity({ name: 'room_type' })
 export class RoomType extends AbstractEntity<RoomType> implements RoomTypeDto {
