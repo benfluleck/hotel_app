@@ -1,14 +1,15 @@
-import { Column, Entity, OneToMany, Unique } from 'typeorm';
+import { Column, Entity, Index, OneToMany, Unique } from 'typeorm';
 import { CustomerDto } from '../dto/customer.dto';
 import { AbstractEntity } from '../../../common/component-entities/abstract.entity';
 import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity({ name: 'customer' })
+@Unique('UNIQ_USER_NAME', ['firstName', 'lastName'])
+@Index(['email', 'phone'], { unique: true })
 export class Customer extends AbstractEntity<Customer> implements CustomerDto {
   @Column({ name: 'first_name', type: 'text', nullable: false })
   firstName!: string;
 
-  @Unique('UNIQ_USER_NAME', ['firstName', 'lastName'])
   @Column({ name: 'last_name', type: 'text', nullable: false })
   lastName!: string;
 
@@ -27,7 +28,7 @@ export class Customer extends AbstractEntity<Customer> implements CustomerDto {
   @Column({ type: 'text', nullable: false })
   country!: string;
 
-  @Column({ type: 'text', nullable: false, unique: true })
+  @Column({ type: 'text', nullable: false })
   email!: string;
 
   @Column({ type: 'text', nullable: false })

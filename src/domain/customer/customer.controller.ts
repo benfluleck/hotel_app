@@ -6,17 +6,30 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { ERROR_CODES } from 'src/common/component-entities/error-context';
 
 @Controller('customer')
+@UsePipes(ZodValidationPipe)
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   @Post()
-  create(@Body() createCustomerDto: CreateCustomerDto) {
+  create(
+    @Body(new ZodValidationPipe(CreateCustomerDto))
+    createCustomerDto: CreateCustomerDto,
+  ) {
+    if (!createCustomerDto) {
+      throw new HttpException(ERROR_CODES.BAD_REQUEST, HttpStatus.BAD_REQUEST);
+    }
+
     return this.customerService.create(createCustomerDto);
   }
 

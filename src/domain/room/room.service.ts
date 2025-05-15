@@ -71,7 +71,7 @@ export class RoomService {
   }
 
   async findAll(hotelId: string): Promise<Room[]> {
-    const hotel = await this.entityManager.findOneBy(Hotel, {
+    const hotel = await this.entityManager.findOneByOrFail(Hotel, {
       id: hotelId,
     });
 

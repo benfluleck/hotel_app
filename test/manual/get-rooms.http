@@ -1,0 +1,3 @@
+GET http://[::1]:3000/room?hotelId=be6c7a46-314e-4509-8e99-dbc5b1f8b134
+Content-Type: application/json
+# Authorization: Bearer {{token}}

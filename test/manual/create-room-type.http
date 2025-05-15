@@ -3,8 +3,9 @@ Content-Type: application/json
 
 
 {
-  "name": "Deluxe Room",
+  "name": "Deluxe Room with Ben ",
   "description": "A spacious room with a king-size bed and a beautiful view.",
   "pricePerNight": 150.00,
-  "maxGuests": 2
+  "maxGuests": 2,
+  "hotelId": "be6c7a46-314e-4509-8e99-dbc5b1f8b134"
 }

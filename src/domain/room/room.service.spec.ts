@@ -113,4 +113,21 @@ describe('RoomService', () => {
 
     expect(result).toEqual(room);
   });
+
+  it('should update a room', async () => {
+    const room = new Room({
+      id: '1',
+      roomNumber: '101',
+      isAvailable: true,
+    });
+    const updateRoomDto = {
+      roomNumber: '102',
+      isAvailable: false,
+    };
+    jest.spyOn(service, 'update').mockResolvedValue(room);
+
+    const result = await service.update('1', updateRoomDto);
+
+    expect(result).toEqual(room);
+  });
 });
