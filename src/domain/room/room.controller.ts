@@ -38,7 +38,7 @@ export class RoomController {
 
   @Get()
   async findAll(@Query('hotelId') hotelId: string) {
-    return await this.roomService.findAll(hotelId);
+    return this.roomService.findAll(hotelId);
   }
 
   @Get(':id')

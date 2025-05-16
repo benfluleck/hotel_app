@@ -33,7 +33,7 @@ export class Hotel extends AbstractEntity<Hotel> implements HotelDto {
   })
   bookings!: Booking[];
 
-  @OneToMany(() => Room, (room) => room.roomType, {
+  @OneToMany(() => Room, (room) => room.hotel, {
     cascade: ['insert', 'update'],
   })
   roomTypes!: RoomType[];

@@ -57,8 +57,8 @@ export class BookingService {
           );
         }
 
-        booking.room = room;
         booking.customer = customer;
+        booking.hotel = room.hotel;
 
         const savedBooking = await transactionalEntityManager.save(
           Booking,
@@ -66,6 +66,8 @@ export class BookingService {
         );
 
         room.bookings = [...room.bookings, savedBooking];
+        room.isAvailable = true;
+
         await transactionalEntityManager.save(room);
         customer.bookings = [...customer.bookings, savedBooking];
         await transactionalEntityManager.save(customer);

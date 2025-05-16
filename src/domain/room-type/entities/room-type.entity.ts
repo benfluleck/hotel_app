@@ -31,7 +31,7 @@ export class RoomType extends AbstractEntity<RoomType> implements RoomTypeDto {
   rooms!: Room[];
 
   @ManyToOne(() => Hotel, (hotel) => hotel.roomTypes, {
-    cascade: ['insert', 'update', 'remove'],
+    cascade: ['insert', 'update'],
   })
   hotel!: Hotel;
 }
