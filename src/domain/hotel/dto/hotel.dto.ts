@@ -5,7 +5,7 @@ export const HotelDtoSchema = z
   .object({
     id: z.string().uuid(),
     name: z.string({ required_error: 'Hotel name is required' }),
-    street_address: z.string().min(5, { message: 'Address is too short' }),
+    streetAddress: z.string().min(5, { message: 'Address is too short' }),
     state: z.string({ required_error: 'State is required' }),
     email: z
       .string()

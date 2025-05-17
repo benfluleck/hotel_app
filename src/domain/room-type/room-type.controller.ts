@@ -6,18 +6,31 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { RoomTypeService } from './room-type.service';
 import { CreateRoomTypeDto } from './dto/create-room-type.dto';
 import { UpdateRoomTypeDto } from './dto/update-room-type.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { ERROR_CODES } from 'src/common/component-entities/error-context';
 
 @Controller('room-type')
+@UsePipes(ZodValidationPipe)
 export class RoomTypeController {
   constructor(private readonly roomTypeService: RoomTypeService) {}
 
   @Post()
-  create(@Body() body: CreateRoomTypeDto) {
-    return this.roomTypeService.create(body);
+  async create(
+    @Body(new ZodValidationPipe(CreateRoomTypeDto)) body: CreateRoomTypeDto,
+  ) {
+    const roomType = await this.roomTypeService.create(body);
+
+    if (!roomType) {
+      throw new HttpException(ERROR_CODES.BAD_REQUEST, HttpStatus.BAD_REQUEST);
+    }
+    return roomType;
   }
 
   @Get()

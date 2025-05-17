@@ -6,18 +6,33 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { ERROR_CODES } from 'src/common/component-entities/error-context';
 
 @Controller('booking')
+@UsePipes(ZodValidationPipe)
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingService.create(createBookingDto);
+  async create(
+    @Body(new ZodValidationPipe(CreateBookingDto))
+    createBookingDto: CreateBookingDto,
+  ) {
+    const booking = await this.bookingService.create(createBookingDto);
+
+    if (!booking) {
+      throw new HttpException(ERROR_CODES.BAD_REQUEST, HttpStatus.BAD_REQUEST);
+    }
+
+    return booking;
   }
 
   @Get()

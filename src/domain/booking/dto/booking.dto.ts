@@ -13,11 +13,11 @@ export type BookingStatus = z.infer<typeof bookingStatus>;
 export const BookingDtoSchema = z
   .object({
     id: z.string().uuid(),
-    checkInDate: z.date({
+    checkInDate: z.coerce.date({
       required_error: 'Check-in date is required',
       invalid_type_error: 'Check-in date must be a valid date',
     }),
-    checkOutDate: z.date({
+    checkOutDate: z.coerce.date({
       required_error: 'Check-in date is required',
       invalid_type_error: 'Check-in date must be a valid date',
     }),
@@ -27,7 +27,7 @@ export const BookingDtoSchema = z
         invalid_type_error: 'Total price must be a number',
       })
       .positive(),
-    numberOfGuests: z.number().positive(),
+    numberOfGuests: z.number().positive().optional(),
     status: bookingStatus,
     createdAt: z.date(),
     updatedAt: z.date(),

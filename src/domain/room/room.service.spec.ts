@@ -61,6 +61,21 @@ describe('RoomService', () => {
     );
   });
 
+  it('should throw an error if roomTypeId is invalid', async () => {
+    const createRoomDto = {
+      roomNumber: '101',
+      hotelId: '1',
+      roomTypeId: 'invalid-room-type-id',
+      isAvailable: true,
+    };
+
+    jest.spyOn(roomRepository, 'findOne').mockResolvedValue(null);
+
+    await expect(service.create(createRoomDto)).rejects.toThrow(
+      `ROOM_TYPE NOT_FOUND`,
+    );
+  });
+
   it('should create a room', async () => {
     const room = new Room({
       id: '1',
@@ -110,6 +125,23 @@ describe('RoomService', () => {
     jest.spyOn(service, 'findOne').mockResolvedValue(room);
 
     const result = await service.findOne('1');
+
+    expect(result).toEqual(room);
+  });
+
+  it('should update a room', async () => {
+    const room = new Room({
+      id: '1',
+      roomNumber: '101',
+      isAvailable: true,
+    });
+    const updateRoomDto = {
+      roomNumber: '102',
+      isAvailable: false,
+    };
+    jest.spyOn(service, 'update').mockResolvedValue(room);
+
+    const result = await service.update('1', updateRoomDto);
 
     expect(result).toEqual(room);
   });

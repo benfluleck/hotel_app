@@ -36,5 +36,5 @@ export class Room extends AbstractEntity<Room> implements RoomDto {
   @OneToMany(() => Booking, (booking) => booking.room, {
     cascade: ['insert', 'update', 'remove'],
   })
-  booking!: Booking[];
+  bookings!: Booking[];
 }

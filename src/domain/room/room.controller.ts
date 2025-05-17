@@ -37,7 +37,7 @@ export class RoomController {
   }
 
   @Get()
-  findAll(@Query('hotelId') hotelId: string) {
+  async findAll(@Query('hotelId') hotelId: string) {
     return this.roomService.findAll(hotelId);
   }
 

@@ -26,7 +26,7 @@ export const PaymentDtoSchema = z
       .positive({ message: 'Amount must be a positive number' }),
     method: paymentMethod,
     status: paymentStatus,
-    transactionDate: z.date({
+    transactionDate: z.coerce.date({
       required_error: 'Transaction date is required',
       invalid_type_error: 'Transaction date must be a valid date',
     }),
@@ -35,5 +35,4 @@ export const PaymentDtoSchema = z
   })
   .required();
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export class PaymentDto extends createZodDto(PaymentDtoSchema) {}

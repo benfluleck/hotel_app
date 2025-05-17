@@ -4,6 +4,7 @@ import { BookingDto, bookingStatus, BookingStatus } from '../dto/booking.dto';
 import { Customer } from '../../customer/entities/customer.entity';
 import { Room } from '../../room/entities/room.entity';
 import { Payment } from '../../payment/entities/payment.entity';
+import { Hotel } from 'src/domain/hotel/entities/hotel.entity';
 
 @Entity({ name: 'booking' })
 export class Booking extends AbstractEntity<Booking> implements BookingDto {
@@ -36,16 +37,22 @@ export class Booking extends AbstractEntity<Booking> implements BookingDto {
   status!: BookingStatus;
 
   @ManyToOne(() => Customer, (customer) => customer.bookings, {
-    cascade: ['insert', 'update'],
+    cascade: ['insert'],
   })
   @JoinColumn({ name: 'customer_id' })
   customer!: Customer;
 
-  @ManyToOne(() => Room, (room) => room.booking, {
+  @ManyToOne(() => Room, (room) => room.bookings, {
     cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'room_id' })
   room!: Room;
+
+  @ManyToOne(() => Hotel, (hotel) => hotel.bookings, {
+    cascade: ['insert', 'update'],
+  })
+  @JoinColumn({ name: 'hotel_id' })
+  hotel!: Hotel;
 
   @OneToOne(() => Payment, (payment) => payment.booking, {
     cascade: ['insert', 'update'],

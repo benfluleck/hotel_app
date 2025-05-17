@@ -6,7 +6,7 @@ export const CustomerDtoSchema = z
     id: z.string().uuid(),
     firstName: z.string(),
     lastName: z.string(),
-    dateOfBirth: z.date().optional(),
+    dateOfBirth: z.coerce.date().optional(),
     streetAddress: z.string().min(5, { message: 'Address is too short' }),
     city: z.string().optional(),
     postCode: z.string().optional(),

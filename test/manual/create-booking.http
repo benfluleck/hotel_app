@@ -1,0 +1,14 @@
+POST http://[::1]:3000/booking
+Content-Type: application/json
+
+{
+
+ "checkOutDate": "2023-10-30",
+  "checkInDate": "2023-10-29",
+  "totalPrice": 100,
+  "numberOfGuests": 2,
+  "status": "PENDING",
+  "roomId": "9df0e7ce-2ba1-402c-b0f0-222cdbea4946",
+  "customerId": "db835ed1-a19e-40c5-9cd2-e1d1643b2635",
+  "hotelId": "be6c7a46-314e-4509-8e99-dbc5b1f8b134"
+}
