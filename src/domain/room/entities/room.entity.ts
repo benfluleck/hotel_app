@@ -21,6 +21,9 @@ export class Room extends AbstractEntity<Room> implements RoomDto {
   @Column({ name: 'is_available', type: 'boolean', default: true })
   isAvailable!: boolean;
 
+  @Column({ name: 'active_booking_id', type: 'uuid', nullable: true })
+  activeBookingId!: string | null;
+
   @ManyToOne(() => RoomType, (roomType) => roomType.rooms, {
     cascade: ['insert', 'update', 'recover'],
   })
