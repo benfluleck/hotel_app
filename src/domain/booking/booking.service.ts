@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { isAfter, isSameDay } from 'date-fns';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +25,13 @@ export class BookingService {
       .transaction(async (transactionalEntityManager) => {
         const booking = new Booking(createBookingDto);
 
+        if (createBookingDto.checkInDate >= createBookingDto.checkOutDate) {
+          throw new HttpException(
+            'Check-in date cannot be later than check-out date',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+
         const room = await transactionalEntityManager.findOne(Room, {
           where: { id: createBookingDto.roomId },
           relations: ['bookings', 'hotel'],
@@ -33,6 +41,21 @@ export class BookingService {
           throw new HttpException(
             `${DOMAIN_ENTITIES.ROOM} ${ERROR_CODES.NOT_FOUND}`,
             HttpStatus.NOT_FOUND,
+          );
+        }
+
+        // check if the room is available on the selected dates and return error if not
+        const isRoomAvailable = room.bookings.every((booking) => {
+          // const bookingCheckInDate = new Date(booking.checkInDate);
+          const bookingCheckOutDate = new Date(booking.checkOutDate);
+
+          return isAfter(createBookingDto.checkInDate, bookingCheckOutDate);
+        });
+
+        if (!room.isAvailable || !isRoomAvailable) {
+          throw new HttpException(
+            `${DOMAIN_ENTITIES.ROOM} ${ERROR_CODES.NOT_AVAILABLE}`,
+            HttpStatus.BAD_REQUEST,
           );
         }
 
@@ -66,16 +89,19 @@ export class BookingService {
         );
 
         room.bookings = [...room.bookings, savedBooking];
-        room.isAvailable = true;
+
+        // set the room as unavailable if the check-in date is today
+        if (isSameDay(new Date(), createBookingDto.checkInDate)) {
+          room.activeBookingId = savedBooking.id;
+          room.isAvailable = false;
+        }
 
         await transactionalEntityManager.save(room);
         customer.bookings = [...customer.bookings, savedBooking];
         await transactionalEntityManager.save(customer);
 
         return {
-          id: savedBooking.id,
           customerId: savedBooking.customer.id,
-          roomId: savedBooking.room.id,
           checkInDate: savedBooking.checkInDate,
           checkOutDate: savedBooking.checkOutDate,
           numberOfGuests: savedBooking.numberOfGuests,

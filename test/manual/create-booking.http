@@ -3,8 +3,8 @@ Content-Type: application/json
 
 {
 
- "checkOutDate": "2023-10-30",
-  "checkInDate": "2023-10-29",
+ "checkOutDate": "2025-11-03",
+  "checkInDate": "2025-11-01",
   "totalPrice": 100,
   "numberOfGuests": 2,
   "status": "PENDING",

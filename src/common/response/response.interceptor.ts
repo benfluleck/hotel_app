@@ -10,6 +10,21 @@ import {
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ZodError } from 'zod';
+
+const transformError = (error: ZodError) => {
+  const errors = error.errors.map((err) => {
+    const { path, message } = err;
+    const field = path.length > 0 ? path[0] : 'unknown';
+    return {
+      field,
+      message,
+    };
+  });
+  return {
+    errors,
+  };
+};
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -31,7 +46,10 @@ export class ResponseInterceptor implements NestInterceptor {
           error instanceof HttpException ? error.getStatus() : 500;
         const errorResponse = {
           statusCode,
-          message: error.message || new InternalServerErrorException(),
+          message:
+            error.error instanceof ZodError
+              ? transformError(error.error as ZodError)
+              : error.message || new InternalServerErrorException(),
           error: error.name || 'Error',
           timestamp: Date.now(),
           data: {},
